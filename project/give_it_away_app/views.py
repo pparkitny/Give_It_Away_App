@@ -3,6 +3,7 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Category, Institution, Donation
+from django.core.paginator import Paginator
 
 
 class LandingPageView(View):
@@ -28,10 +29,31 @@ class LandingPageView(View):
                     list_of_donated_institutions.append(obj.institution)
                 number_of_donated_institutions = len(list_of_donated_institutions)
 
-        all_institutions = Institution.objects.all()
+        page_num = request.GET.get('page')
 
-        ctx = {'sum_of_bags': sum_of_bags, 'number_of_donated_institutions': number_of_donated_institutions,
-               'all_institutions': all_institutions}
+        all_institutions = Institution.objects.all()
+        paginator = Paginator(all_institutions, 2)
+        page = paginator.get_page(page_num)
+
+        fundations = Institution.objects.filter(type=1)
+        fundations_paginator = Paginator(fundations, 5)
+        fundations_page = fundations_paginator.get_page(page_num)
+
+        non_gov_org = Institution.objects.filter(type=2)
+        non_gov_org_paginator = Paginator(non_gov_org, 5)
+        non_gov_org_page = non_gov_org_paginator.get_page(page_num)
+
+        local_collections = Institution.objects.filter(type=3)
+        local_collections_paginator = Paginator(local_collections, 5)
+        local_collections_page = local_collections_paginator.get_page(page_num)
+
+        ctx = {'sum_of_bags': sum_of_bags,
+               'number_of_donated_institutions': number_of_donated_institutions,
+               'all_institutions': all_institutions,
+               'page': page,
+               'fundations_page': fundations_page,
+               'non_gov_org_page': non_gov_org_page,
+               'local_collections_page': local_collections_page}
 
         return render(request, 'index.html', ctx)
 

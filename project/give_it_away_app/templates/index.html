@@ -92,55 +92,11 @@
         <li data-id="3"><a href="#" class="btn btn--without-border">Lokalnym zbiórkom</a></li>
       </ul>
 
-<!--      &lt;!&ndash; SLIDE 1 &ndash;&gt;-->
-<!--      <div class="help&#45;&#45;slides active" data-id="1">-->
-<!--        <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>-->
-
-<!--        <ul class="help&#45;&#45;slides-items">-->
-<!--          <li>-->
-<!--            <div class="col">-->
-<!--              <div class="title">Fundacja "Dbam o Zdrowie"</div>-->
-<!--              <div class="subtitle">Cel i misja: Pomoc dzieciom z ubogich rodzin.</div>-->
-<!--            </div>-->
-
-<!--            <div class="col"><div class="text">ubrania, jedzenie, sprzęt AGD, meble, zabawki</div></div>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <div class="col">-->
-<!--              <div class="title">Fundacja “Dla dzieci"</div>-->
-<!--              <div class="subtitle">Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji życiowej.</div>-->
-<!--            </div>-->
-
-<!--            <div class="col"><div class="text">ubrania, meble, zabawki</div></div>-->
-<!--          </li>-->
-
-<!--          <li>-->
-<!--            <div class="col">-->
-<!--              <div class="title">Fundacja “Bez domu”</div>-->
-<!--              <div class="subtitle">Cel i misja: Pomoc dla osób nie posiadających miejsca zamieszkania</div>-->
-<!--            </div>-->
-
-<!--            <div class="col"><div class="text">ubrania, jedzenie, ciepłe koce</div></div>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--        &lt;!&ndash; Pagination-->
-<!--        <ul class="help&#45;&#45;slides-pagination">-->
-<!--          <li><a href="#" class="btn btn&#45;&#45;small btn&#45;&#45;without-border active" data-page="1">1</a></li>-->
-<!--          <li><a href="#" class="btn btn&#45;&#45;small btn&#45;&#45;without-border" data-page="2">2</a></li>-->
-<!--          <li><a href="#" class="btn btn&#45;&#45;small btn&#45;&#45;without-border" data-page="3">3</a></li>-->
-<!--        </ul>-->
-<!--        &ndash;&gt;-->
-<!--      </div>-->
-
-
        <!-- SLIDE 1 -->
       <div class="help--slides active" data-id="1">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
-        {% for institution in all_institutions %}
-
-        {% if institution.type == 1 %}
+        {% for institution in fundations_page.object_list %}
 
         <ul class="help--slides-items">
           <li>
@@ -162,17 +118,20 @@
             </div></div>
           </li>
         </ul>
-          {% endif %}
 
           {% endfor %}
-
-        <!-- Pagination
-        <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-        </ul>
-        -->
+      <ul class="help--slides-pagination">
+          {% if fundations_page.has_previous %}
+            <a href="?page={{ fundations_page.previous_page_number }}#help" class="btn btn--small btn--without-border">
+              Poprzednia strona
+            </a>
+          {% endif %}
+          {% if fundations_page.has_next %}
+            <a href="?page={{ fundations_page.next_page_number }}#help" class="btn btn--small btn--without-border">
+              Następna strona
+            </a>
+          {% endif %}
+      </ul>
       </div>
 
       <!-- SLIDE 2 -->
@@ -182,9 +141,7 @@
             Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
         </p>
 
-        {% for institution in all_institutions %}
-
-        {% if institution.type == 2 %}
+        {% for institution in non_gov_org_page.object_list %}
 
         <ul class="help--slides-items">
           <li>
@@ -206,19 +163,23 @@
             </div></div>
           </li>
         </ul>
-          {% endif %}
 
           {% endfor %}
 
-        <!-- Pagination
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="4">4</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="5">5</a></li>
+          {% if non_gov_org_page.has_previous %}
+            <a href="?page={{ non_gov_org_page.previous_page_number }}#help" class="btn btn--small btn--without-border">
+              Poprzednia strona
+            </a>
+          {% endif %}
+          {% if non_gov_org_page.has_next %}
+            <a href="?page={{ non_gov_org_page.next_page_number }}#help" class="btn btn--small btn--without-border">
+              Następna strona
+            </a>
+          {% endif %}
         </ul>
-        -->
+      </div>
+
       </div>
 
       <!-- SLIDE 3 -->
@@ -227,9 +188,8 @@
             W naszej bazie znajdziesz listę zweryfikowanych Lokalnych zbiórek, z którymi współpracujemy.
             Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.
         </p>
-        {% for institution in all_institutions %}
 
-        {% if institution.type == 3 %}
+        {% for institution in local_collections_page.object_list %}
 
         <ul class="help--slides-items">
           <li>
@@ -247,20 +207,28 @@
                   {{ category }},
                 {% endif %}
               {% endfor %}
-              
+
             </div></div>
           </li>
         </ul>
-          {% endif %}
 
           {% endfor %}
 
-        <!-- Pagination
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
+          {% if local_collections_page.has_previous %}
+            <a href="?page={{ local_collections_page.previous_page_number }}#help" class="btn btn--small btn--without-border">
+              Poprzednia strona
+            </a>
+          {% endif %}
+          {% if local_collections_page.has_next %}
+            <a href="?page={{ local_collections_page.next_page_number }}#help" class="btn btn--small btn--without-border">
+              Następna strona
+            </a>
+          {% endif %}
         </ul>
-        -->
+      </div>
+
+
       </div>
     </section>
 {% endblock %}
