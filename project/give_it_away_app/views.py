@@ -28,7 +28,10 @@ class LandingPageView(View):
                     list_of_donated_institutions.append(obj.institution)
                 number_of_donated_institutions = len(list_of_donated_institutions)
 
-        ctx = {'sum_of_bags': sum_of_bags, 'number_of_donated_institutions': number_of_donated_institutions}
+        all_institutions = Institution.objects.all()
+
+        ctx = {'sum_of_bags': sum_of_bags, 'number_of_donated_institutions': number_of_donated_institutions,
+               'all_institutions': all_institutions}
 
         return render(request, 'index.html', ctx)
 
