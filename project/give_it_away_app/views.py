@@ -3,7 +3,11 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Category, Institution, Donation
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
+from .forms import LoginForm, RegisterForm
+from django.contrib.auth import authenticate, login, logout
 
 
 class LandingPageView(View):
@@ -68,10 +72,38 @@ class AddDonationView(View):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, 'login.html')
+        form = LoginForm()
+        return render(request, 'login.html', {'form': form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        form.is_valid()
+        user = authenticate(username=form.cleaned_data['username'],
+                            password=form.cleaned_data['password'])
+        if user:  # user is in database
+            login(request, user)  # from django.contrib.auth import login
+            return redirect('/')
+        else:  # user is None
+            message = 'Zły email lub hasło'
+            return render(request, 'login.html', {'form': form, 'message': message})
 
 
 class RegisterView(View):
     def get(self, request):
-        return render(request, 'register.html')
+        form = RegisterForm()
+        return render(request, 'register.html', {'form': form})
 
+    @csrf_exempt
+    def post(self, request):
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            user = User.objects.create_user(username=form.cleaned_data['email'],
+                                            password=form.cleaned_data['password1'],
+                                            first_name=form.cleaned_data['first_name'],
+                                            last_name=form.cleaned_data['last_name'],
+                                            email=form.cleaned_data['email'])
+            user.save()
+            return redirect('/login/')
+        else:
+            return render(request, 'register.html', {'form': form})
