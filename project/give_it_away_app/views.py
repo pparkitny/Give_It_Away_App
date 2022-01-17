@@ -88,6 +88,13 @@ class LoginView(View):
             return render(request, 'login.html', {'form': form, 'message': message})
 
 
+class LogoutView(View):
+    """ This class is used to logout users"""
+    def get(self, request):
+        logout(request)  # from django.contrib.auth import logout
+        return redirect('/')
+
+
 class RegisterView(View):
     def get(self, request):
         form = RegisterForm()
