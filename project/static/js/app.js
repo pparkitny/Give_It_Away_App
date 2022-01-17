@@ -252,4 +252,35 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+  /**
+   * Show only chosen categories in step 1
+   */
+  let checked_categories = []
+  let categories_of_institution = []
+  const categories_checkbox = document.querySelectorAll('input[name="categories"]');
+  const categories = document.querySelectorAll('input[name="category"]')
+  const divs = document.querySelectorAll('#test')
+  categories_checkbox.forEach(function (el){
+    el.addEventListener('change', function (event){
+      if(this.checked){
+        checked_categories.push(el.value)
+        console.log("Zaznaczone")
+        console.log(checked_categories)
+          categories.forEach(function (el){
+            if(checked_categories.includes(el.value)){
+              categories_of_institution.push(el.value)
+              console.log("SPRAWDZAM!")
+              el.parentElement.parentElement.style.display = "block";
+            }
+            else{
+              el.parentElement.parentElement.style.display = "none";
+            }
+          })
+      }
+      else if(this.checked == false){
+        checked_categories.splice(checked_categories.indexOf(el))
+        console.log(checked_categories)
+      }
+    })
+  })
 });

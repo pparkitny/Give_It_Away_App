@@ -68,7 +68,9 @@ class LandingPageView(View):
 class AddDonationView(View):
     def get(self, request):
         categories = Category.objects.all()
-        ctx = {'categories': categories}
+        institutions = Institution.objects.all()
+        institution_categories = Institution.categories.through.objects.all()
+        ctx = {'categories': categories, 'institutions': institutions, 'institution_categories': institution_categories}
 
         return render(request, 'form.html', ctx)
 
