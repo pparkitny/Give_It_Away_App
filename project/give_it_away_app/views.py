@@ -67,8 +67,40 @@ class AddDonationView(View):
         institutions = Institution.objects.all()
         institution_categories = Institution.categories.through.objects.all()
         ctx = {'categories': categories, 'institutions': institutions, 'institution_categories': institution_categories}
-
         return render(request, 'form.html', ctx)
+
+    def post(self, request):
+        quantity = request.POST.get('bags')
+        institution = Institution.objects.get(name=request.POST.get('organization'))
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        zip_code = request.POST.get('postcode')
+        phone_number = request.POST.get('phone')
+        pick_up_date = request.POST.get('date')
+        pick_up_time = request.POST.get('time')
+        pick_up_comment = request.POST.get('more_info')
+        user = request.user
+        donation = Donation.objects.create(
+            quantity=quantity,
+            institution=institution,
+            address=address,
+            city=city,
+            zip_code=zip_code,
+            phone_number=phone_number,
+            pick_up_date=pick_up_date,
+            pick_up_time=pick_up_time,
+            pick_up_comment=pick_up_comment,
+            user=user
+        )
+
+        checked_categories = request.POST.get('checked_categories_backend').split(',')
+        for category in checked_categories:
+            Donation.categories.through.objects.create(
+                donation=donation,
+                category=Category.objects.get(id=category)
+            )
+
+        return render(request, 'form-confirmation.html')
 
 
 class LoginView(View):

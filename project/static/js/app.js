@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       // Form submit
-      this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+      // this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
     }
 
     /**
@@ -309,6 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   summary_trigger.addEventListener('click', function (){
     summary_text.innerText = number_of_bags.value+" worki zawierające: " + checked_categories_names
+    document.querySelector('input[name="checked_categories_backend"]').value = checked_categories
     organizations.forEach(function (organization){
       if(organization.checked){
         summary_institution.innerText = 'Dla fundacji "'+organization.value+'"'
