@@ -36,8 +36,6 @@ class LandingPageView(View):
         page_num = request.GET.get('page')
 
         all_institutions = Institution.objects.all()
-        paginator = Paginator(all_institutions, 2)
-        page = paginator.get_page(page_num)
 
         fundations = Institution.objects.filter(type=1)
         fundations_paginator = Paginator(fundations, 5)
@@ -53,8 +51,6 @@ class LandingPageView(View):
 
         ctx = {'sum_of_bags': sum_of_bags,
                'number_of_donated_institutions': number_of_donated_institutions,
-               'all_institutions': all_institutions,
-               'page': page,
                'fundations_page': fundations_page,
                'non_gov_org_page': non_gov_org_page,
                'local_collections_page': local_collections_page}
