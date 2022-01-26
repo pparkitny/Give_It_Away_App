@@ -147,3 +147,9 @@ class RegisterView(View):
             return redirect('/login/')
         else:
             return render(request, 'register.html', {'form': form})
+
+
+class MainSiteView(View):
+    def get(self, request):
+        user = User.objects.all()
+        return render(request, 'main-site.html')
