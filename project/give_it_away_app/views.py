@@ -142,6 +142,6 @@ class RegisterView(View):
 
 class MainSiteView(View):
     def get(self, request):
-        donations = Donation.objects.all()
+        donations = Donation.objects.all().order_by('pick_up_date').order_by('pick_up_time')
         ctx = {'donations': donations}
         return render(request, 'main-site.html', ctx)
