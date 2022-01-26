@@ -10,5 +10,31 @@
           </h1>
         </div>
       </div>
-    </header>
+
+    <section id="stats" class="stats">
+        <table class="table" style="margin: auto; font-size: 3rem; padding: 50px 50px">
+        <thead>
+
+            <tr class="d-flex">
+                <th class="col-2">Ilość worków</th>
+                <th class="col-2">Instytucja</th>
+                <th class="col-2">Data odebrania</th>
+            </tr>
+        </thead>
+    {% for donation in donations %}
+            {% if donation.user.email == user.email %}
+        <tbody>
+            <tr class="d-flex">
+                <td style="font-size: 2.5rem; padding: 0 30px 0 30px">{{ donation.quantity }}</td>
+                <td style="font-size: 2.5rem; padding: 0 30px 0 30px">{{ donation.institution }}</td>
+                <td style="font-size: 2.5rem; padding: 0 30px 0 30px">{{ donation.pick_up_date }} {{ donation.pick_up_time }}</td>
+            </tr>
+        </tbody>
+            {% endif %}
+    {% endfor %}
+    </table>
+    </section>
+
+
+
 {% endblock %}

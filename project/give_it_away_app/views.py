@@ -12,30 +12,21 @@ from django.contrib.auth import authenticate, login, logout
 
 class LandingPageView(View):
     def get(self, request):
-        number_of_donations = Donation.objects.count()
         sum_of_bags = 0
-        for i in range(number_of_donations + 1): # count number of bags
-            if i == 0:
-                pass
-            else:
-                obj = Donation.objects.get(id=i)
-                sum_of_bags += obj.quantity
+
+        donations = Donation.objects.all()
+        for donation in donations:  # count number of bags
+            sum_of_bags += donation.quantity
 
         list_of_donated_institutions = []
-        for i in range(number_of_donations + 1):
-            if i == 0:
+        for donation in donations:
+            if donation.institution in list_of_donated_institutions:
                 pass
             else:
-                obj = Donation.objects.get(id=i)
-                if obj.institution in list_of_donated_institutions:
-                    pass
-                else:
-                    list_of_donated_institutions.append(obj.institution)
-                number_of_donated_institutions = len(list_of_donated_institutions)
+                list_of_donated_institutions.append(donation.institution)
+            number_of_donated_institutions = len(list_of_donated_institutions)
 
         page_num = request.GET.get('page')
-
-        all_institutions = Institution.objects.all()
 
         fundations = Institution.objects.filter(type=1)
         fundations_paginator = Paginator(fundations, 5)
@@ -151,5 +142,6 @@ class RegisterView(View):
 
 class MainSiteView(View):
     def get(self, request):
-        user = User.objects.all()
-        return render(request, 'main-site.html')
+        donations = Donation.objects.all()
+        ctx = {'donations': donations}
+        return render(request, 'main-site.html', ctx)
