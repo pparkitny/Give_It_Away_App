@@ -65,6 +65,8 @@ This application is not yet on any server because it is not done. If you want to
 
 If you have downloaded the project and managed to get it working properly, you can see how it all works.
 
+*Screens have polish words and descriptions, beacuse this whole frontend was made like this*
+
 After launching the app, we are on the home page.
 
 [![first-view.png](https://i.postimg.cc/K87QCFdD/first-view.png)](https://postimg.cc/9DMG73XD)
