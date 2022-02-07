@@ -79,7 +79,7 @@ After launching the app, we are on the home page.
 
 [![contact-site.png](https://i.postimg.cc/52pK6bnN/contact-site.png)](https://postimg.cc/hXz1YFkH)
 
-You can login
+You can login.
 
 [![login-site.png](https://i.postimg.cc/fbrHfCGG/login-site.png)](https://postimg.cc/B82cqTQp)
 
