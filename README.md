@@ -38,7 +38,7 @@
 This project was created as part of a Coders Lab school course. The whole frontend was prepared beforehand, I only focused on making the backend from zero.
 
 In the application we have:
-* Ability to create user accounts.
+* Ability to create user accounts
 * Access to admin panel for super user
 * A form for sending donations to organizations and foundations
 * User profile page
